@@ -62,6 +62,9 @@ class Api
                 $result['authors'][] = [
                     $this->getPaginateKey($page, $key) => array_pop($row)
                 ];
+                $result['totalResult'] = $authors->getTotalItemCount();
+                $result['totalPages'] = $result['totalResult'] > 0 ? ceil($result['totalResult'] / Book::NUMBER_OF_ITEMS_FOR_PAGE) : '';
+
             }
         } catch (\Exception $e) {
             $result['error'] = 'Failed to retrieve data.';

@@ -80,18 +80,18 @@ class BookRepository extends ServiceEntityRepository
             ->select('b.title, b.description, b.author, b.numberReviews')
             ->orderBy('b.title', 'ASC');
         if ($query) {
-            $qb->Where('b.title like :title')
+            $qb->andWhere('b.title like :title')
                 ->setParameter('title', '%' . $query . '%')
                 ->orWhere('b.description like :description')
                 ->setParameter('description', '%' . $query . '%');
         }
         if ($author) {
-            $qb->Where('b.author like :author')
+            $qb->andWhere('b.author like :author')
                 ->setParameter('author', '%' . $author . '%');
         }
         if ($review) {
-            $qb->Where('b.numberReviews >= :numberReviews')
-                ->setParameter('numberReviews', $review);
+            $qb->andWhere('b.numberReviews > :numberReviews')
+                ->setParameter('numberReviews', 1);
         }
         return $qb->getQuery()
             ->getResult();
