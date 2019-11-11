@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>New York Times Bestsellers</h1>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ path('app_book_list') }}">Home <span
+                                class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" name="q" placeholder="{{ query }}"
+                       value="{{ query }}" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+    {% if books is defined and books|length %}
+        <div class="row mb-2 ml-2">
+            <div class="col-md-11">Number of results: {{ books.getTotalItemCount }}</div>
+            <div class="col-md-1">{{ knp_pagination_render(books) }}</div>
+        </div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>{{ knp_pagination_sortable(books, 'Id', 'id') }}</th>
+                <th>{{ knp_pagination_sortable(books, 'Title', 'title') }}</th>
+                <th>{{ knp_pagination_sortable(books, 'Author', 'author') }}</th>
+                <th>{{ knp_pagination_sortable(books, 'Description', 'description') }}</th>
+                <th>{{ knp_pagination_sortable(books, 'Number of Reviews', 'numberReviews') }}</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for book in books %}
+                <tr>
+                    <td>{{ book.id }}</td>
+                    <td class="w-25">{{ book.title }}</td>
+                    <td>{{ book.author }}</td>
+                    <td class="w-25">{{ book.description }}</td>
+                    <td>{{ book.numberReviews }}</td>
+                    <td scope="row">
+                        <div class="btn-group">
+                            <a class="btn btn-primary btn-xs mr-2"
+                               href="{{ path('import', { 'id': book.id }) }}">Import </a>
+                            {% if book.filename is defined and book.filename|length %}
+                                <a class="btn btn-secondary btn-xs" href="{{ asset('uploads/books/' ~ book.filename) }}"
+                                   download="{{ book.title }}">Download (PDF)</a>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Empty list</p>
+    {% endif %}
+{% endblock %}

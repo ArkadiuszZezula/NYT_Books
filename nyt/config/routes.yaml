@@ -1,0 +1,15 @@
+index:
+  path: /
+  controller: App\Controller\BookController::list
+
+import:
+  path:      /import
+  controller: App\Controller\BookController::import
+
+api_author:
+  path: /api/author/
+  controller: App\Controller\ApiController::author
+
+api_book:
+  path: /api/book/
+  controller: App\Controller\ApiController::book

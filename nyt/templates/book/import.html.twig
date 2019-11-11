@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="col-12">
+        <span class="h4">{{ book.title }}, {{ book.author }} </span>
+        {{ form_start(form) }}
+        {{ form_row(form.book_file) }}
+        {{ form_end(form) }}
+        <a class="btn btn-secondary" href="{{ path('app_book_list') }}">Back</a>
+    </div>
+{% endblock body %}
